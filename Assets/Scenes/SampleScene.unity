@@ -368,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b0ff0aff80542188b48460d10c5f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setting: 1
 --- !u!4 &8532882291212905193
 Transform:
   m_ObjectHideFlags: 0
@@ -409,13 +410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bfa036348344dd398241a47a5954114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonElement: {fileID: 4318286698347781567, guid: c688edc237545445d8e181d4beedf7d3, type: 3}
   imageElement: {fileID: 5192467522507569007, guid: 5d7a5d0bf3ec54ced9bd22d5343e686b, type: 3}
-  panelElement: {fileID: 312298378842910158, guid: 428ddeddcab4244559be43b3285912f4, type: 3}
-  sliderElement: {fileID: 6088070431560208946, guid: 2d44af5d587144765809d97e9547599e, type: 3}
-  stepperElement: {fileID: 5592481705511822117, guid: 405719f47beb74918ac13daf3b1d8377, type: 3}
   textElement: {fileID: 160421133034156401, guid: 3dc2729dbf68f4e3eb9bde45cf6774a7, type: 3}
-  toggleElement: {fileID: 8920430827559612048, guid: 5d5815b7c7c5245f89a21c981e655b89, type: 3}
   scaleFactor: 700
   defaultZPosition: 1.3
   defaultAdjustX: -800

@@ -40,13 +40,8 @@ namespace Playbook.Scripts.Figma
         {
             _parentFigmaFile = parent;
 
-            _buttonElement = FigmaConstants.Instance.buttonElement;
             _imageElement = FigmaConstants.Instance.imageElement;
-            _panelElement = FigmaConstants.Instance.panelElement;
-            _sliderElement = FigmaConstants.Instance.sliderElement;
-            _stepperElement = FigmaConstants.Instance.stepperElement;
             _textElement = FigmaConstants.Instance.textElement;
-            _toggleElement = FigmaConstants.Instance.toggleElement;
             
             _imageShader = Shader.Find("Universal Render Pipeline/Unlit");
             
