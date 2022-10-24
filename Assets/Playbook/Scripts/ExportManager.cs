@@ -4,17 +4,9 @@ using UnityEditor;
 
 public class ExportManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void SavePrefabs()
     {
-        string path = "Assets/Playbook/Prefabs";
-        if (Directory.Exists(path)) { Directory.Delete(path, true); }
-        Directory.CreateDirectory(path);
 
         // Keep track of the currently selected GameObject(s)
         GameObject[] objectArray = Selection.gameObjects;
@@ -24,13 +16,9 @@ public class ExportManager : MonoBehaviour
         {
             // Create folder Prefabs and set the path as within the Prefabs folder,
             // and name it as the GameObject's name with the .Prefab format
-            //if (Directory.Exists("Assets/Playbook/Prefabs"))
-            //{
-            //    Directory.Delete("Assets/Playbook/Prefabs");
-            //    AssetDatabase.CreateFolder("Assets/Playbook", "Prefabs");
-            //}   else 
-            //    AssetDatabase.CreateFolder("Assets/Playbook", "Prefabs");
-            string localPath = path + gameObject.name + ".prefab";
+            if (!Directory.Exists("Assets/Exported Prefabs"))
+                AssetDatabase.CreateFolder("Assets", "Exported Prefabs");
+            string localPath = "Assets/Exported Prefabs/" + gameObject.name + ".prefab";
 
             // Make sure the file name is unique, in case an existing Prefab has the same name.
             localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
