@@ -11,7 +11,7 @@ public class ExportEditor : Editor
         ExportManager em = (ExportManager)target;
         if (GUILayout.Button("Save Prefabs"))
         {
-            Debug.Log("Save!");
+            em.SavePrefabs();
         }
     }
 }
