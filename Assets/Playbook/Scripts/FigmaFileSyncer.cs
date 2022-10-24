@@ -36,6 +36,8 @@ namespace Playbook.Scripts.Figma
         private float _origAdjustX;
         private float _origAdjustY;
 
+        private int elementCount;
+
         public FigmaFileSyncer(FigmaFile parent)
         {
             _parentFigmaFile = parent;
@@ -174,6 +176,9 @@ namespace Playbook.Scripts.Figma
             SetObjectColor(currFigmaComponentType, currObject, figmaObjectJSON);
             SetImageFill(currFigmaComponentType, currObject, figmaObjectJSON, figmaImageRefJSON,
                 width, height, isUnknownComponent, isUnknownTextComponent, figmaFileID);
+
+            currObject.name = "FigmaElement_" + elementCount;
+            elementCount++;
 
             return currObject;
         }
@@ -557,16 +562,6 @@ namespace Playbook.Scripts.Figma
                     var newColor = new Color((float)colorJSON["r"], (float)colorJSON["g"], (float)colorJSON["b"],
                         (float)colorJSON["a"]);
                     objCM.currentColor = newColor;
-                    //objCM.UpdateColor();
-                    
-                    // buttons are now colored differently
-                    // TODO support button text color
-                    //if (type == _buttonElement)
-                    //{
-                    //    var playbookButton = currObject.GetComponent<PlaybookButton>();
-                    //    playbookButton.originalColor = newColor;
-                    //    playbookButton.UpdateDualColors();
-                    //}
                 }
             }
         }
