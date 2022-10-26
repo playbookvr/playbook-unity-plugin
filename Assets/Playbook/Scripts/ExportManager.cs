@@ -10,7 +10,20 @@ public class ExportManager : MonoBehaviour
         Selected,
         All
     }
-    public Setting setting = Setting.All;
+    [SerializeField] public bool ClearOnStart = true;
+    [SerializeField] public Setting setting = Setting.All;
+
+    private void Start()
+    {
+        if(ClearOnStart)
+            ClearFolder();
+    }
+
+    public void ClearFolder()
+    {
+        if (Directory.Exists("Assets/Exported")) { Directory.Delete("Assets/Exported", true); }
+        Directory.CreateDirectory("Assets/Exported");
+    }
 
     public void SavePrefabs()
     {
@@ -22,20 +35,18 @@ public class ExportManager : MonoBehaviour
 
         //Assign all to root parent
         //GameObject p = new GameObject("FigmaElements");
+
+        Texture2D itemBGTex = s.texture;
+        Debug.Log(itemBGTex);
+        byte[] itemBGBytes = itemBGTex.EncodeToPNG();
+        File.WriteAllBytes("Assets/Exported" + "Background.png", itemBGBytes);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
         foreach (GameObject gameObject in objectArray)
         {
-            //gameObject.transform.parent = p.transform;
-            //Texture tex = gameObject.GetComponentInChildren<Renderer>().material.mainTexture;
-            //Texture2D texture = new Texture2D(tex.width, tex.height, TextureFormat.RGB24, false);
-            //byte[] bytes = texture.EncodeToPNG();
-            //File.WriteAllBytes("Assets/Exported" + "image1" + ".png", bytes);
-            //AssetDatabase.SaveAssets();
-            //AssetDatabase.Refresh();
 
-            Texture2D itemBGTex = s.texture;
-            byte[] itemBGBytes = itemBGTex.EncodeToPNG();
-            File.WriteAllBytes("Assets/Exported" + "Background.png", itemBGBytes);
-            AssetDatabase.Refresh();
+           
 
             //Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
             //mat.SetFloat("_Surface", 1.0f);
