@@ -13,9 +13,11 @@ public class ExportManager : MonoBehaviour
     [SerializeField] public bool ClearOnStart = true;
     [SerializeField] public Setting setting = Setting.All;
 
-    private void Start()
+    private int exportCount;
+
+    private void Awake()
     {
-        if(ClearOnStart)
+        if (ClearOnStart)
             ClearFolder();
     }
 
@@ -31,47 +33,56 @@ public class ExportManager : MonoBehaviour
         if (setting == Setting.Selected)
             objectArray = Selection.gameObjects;
 
-        ////mat.renderQueue = 2999; // We change the renderQueue to always have images render on top of panels
 
-        //Assign all to root parent
-        //GameObject p = new GameObject("FigmaElements");
+        //-------------------------------
 
         Texture2D itemBGTex = s.texture;
         Debug.Log(itemBGTex);
         byte[] itemBGBytes = itemBGTex.EncodeToPNG();
-        File.WriteAllBytes("Assets/Exported" + "Background.png", itemBGBytes);
+        File.WriteAllBytes("Assets/Exported/" + "Background.png", itemBGBytes);
+
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        mat.SetFloat("_Surface", 1.0f);
+        mat.mainTexture = itemBGTex;
+        mat.renderQueue = 2999;
+        string matPath = "Assets/Exported/" + itemBGTex.name + ".mat";
+        AssetDatabase.CreateAsset(mat, matPath);
+
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
-        foreach (GameObject gameObject in objectArray)
+        //-------------------------------
+
+        //Assign all to root parent
+        GameObject p = new GameObject("FigmaElements");
+
+        foreach (GameObject g in objectArray)
         {
-
-           
-
-            //Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-            //mat.SetFloat("_Surface", 1.0f);
-            //mat.mainTexture = tex;
-            //string matPath = "Assets/Exported/"+ tex.name + ".mat";
-            //AssetDatabase.CreateAsset(mat, matPath);
-
+            g.transform.parent = p.transform;
+            g.GetComponentInChildren<Renderer>().material = mat;
 
         }
 
-        // Save prefab ---------------------------------
-        //if (!Directory.Exists("Assets/Exported"))
-        //    AssetDatabase.CreateFolder("Assets", "Exported");
-        //string localPath = "Assets/Exported/" + gameObject.name + ".prefab";
+        // Save grouped assets as prefab if assets have been imported
+        if(objectArray.Length > 0)
+        {
+            if (!Directory.Exists("Assets/Exported"))
+                AssetDatabase.CreateFolder("Assets", "Exported");
 
-        //// Make sure the file name is unique, in case an existing Prefab has the same name.
-        //localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
+            string localPath = "Assets/Exported/" + p.name + "_" + exportCount + ".prefab";
+            localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
 
-        //// Create the new Prefab and log whether Prefab was saved successfully.
-        //bool prefabSuccess;
-        //PrefabUtility.SaveAsPrefabAsset(gameObject, localPath, out prefabSuccess);
-        //if (prefabSuccess == true)
-        //    Debug.Log("Prefab was saved successfully");
-        //else
-        //    Debug.Log("Prefab failed to save" + prefabSuccess);
+            bool prefabSuccess;
+            PrefabUtility.SaveAsPrefabAsset(p, localPath, out prefabSuccess);
+            if (prefabSuccess == true)
+                Debug.Log("Prefab was saved successfully");
+            else
+                Debug.Log("Prefab failed to save" + prefabSuccess);
+
+            exportCount++;
+        }
+        
+
     }
 
 }
