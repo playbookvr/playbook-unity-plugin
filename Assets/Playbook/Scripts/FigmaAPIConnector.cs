@@ -13,27 +13,21 @@ namespace Playbook.Scripts.Figma
     public class FigmaAPIConnector
     {
         public static FigmaAPIConnector Instance;
-        
-        // private string _figmaClientId = "aXD8E7MiO6RQYwcj0Rp3zw";
-        // private string _figmaClientSecret = "izLFCcfd5hvO7Q1BfzeP9rZxTiM1GG";
-        // private string _figmaCallbackURL = "https://playbookxr.com";
         private string _figmaApiBaseUrl = "https://api.figma.com/v1";
 
-        private string
-            _figmaAccessToken = "figu_PoBANpi5y70_Y69h1oOx4v8DimLPZ6wa_yPKhxBN";
+        private readonly string
+            _figmaAccessToken;
 
-        public FigmaAPIConnector([CanBeNull] string figmaAccessToken)
+        public FigmaAPIConnector(string figmaAccessToken)
         {
             Instance = this;
-            if (figmaAccessToken != null)
-            {
-                _figmaAccessToken = figmaAccessToken;
-            }
+            _figmaAccessToken = figmaAccessToken;
         }
         public IEnumerator RequestFigmaAPI(string figmaAPIEndpoint, Action<JObject> callback)
         {
             UnityWebRequest figmaRequest = UnityWebRequest.Get(_figmaApiBaseUrl + figmaAPIEndpoint);
-            figmaRequest.SetRequestHeader("Authorization", $"Bearer {_figmaAccessToken}");
+            // figmaRequest.SetRequestHeader("Authorization", $"Bearer {_figmaAccessToken}"); // for OAuth
+            figmaRequest.SetRequestHeader("X-FIGMA-TOKEN", $"{_figmaAccessToken}"); // personal access token
             yield return figmaRequest.SendWebRequest();
 
             if (figmaRequest.result != UnityWebRequest.Result.Success)

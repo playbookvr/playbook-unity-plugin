@@ -368,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b0ff0aff80542188b48460d10c5f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  s: {fileID: 0}
   setting: 1
 --- !u!4 &8532882291212905193
 Transform:
@@ -397,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   figmaFileURL: https://www.figma.com/file/IX2ygnlbCqOSR84vyrTijP/Red-Bull-Demo?node-id=520%3A1765
-  figmaAPIToken: figu_09oMomXosZOtQsxvaGLNk7ypiMj410w_hFQODxH0
+  figmaAPIToken: figd_Bcwv5VKworrya75glqBnmJZ3VHFg3SgE1EO-xRbr
 --- !u!114 &8532882291212905195
 MonoBehaviour:
   m_ObjectHideFlags: 0

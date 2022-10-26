@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8532882291212905196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8532882291212905193}
+  - component: {fileID: 8532882291212905194}
+  - component: {fileID: 8532882291212905192}
+  - component: {fileID: 8532882291212905195}
+  m_Layer: 0
+  m_Name: Playbook 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8532882291212905193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532882291212905196}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.9150078, y: -0.17906186, z: 2.5378692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8532882291212905194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532882291212905196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15abb81e1c6744d5a690e11b15512ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  figmaFileURL: https://www.figma.com/file/IX2ygnlbCqOSR84vyrTijP/Red-Bull-Demo?node-id=520%3A1765
+  figmaAPIToken: figu_09oMomXosZOtQsxvaGLNk7ypiMj410w_hFQODxH0
+--- !u!114 &8532882291212905192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532882291212905196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b0ff0aff80542188b48460d10c5f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setting: 0
+--- !u!114 &8532882291212905195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532882291212905196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bfa036348344dd398241a47a5954114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageElement: {fileID: 5192467522507569007, guid: 5d7a5d0bf3ec54ced9bd22d5343e686b, type: 3}
+  textElement: {fileID: 160421133034156401, guid: 3dc2729dbf68f4e3eb9bde45cf6774a7, type: 3}
+  scaleFactor: 700
+  defaultZPosition: 1.3
+  defaultAdjustX: -800
+  defaultAdjustY: -300
