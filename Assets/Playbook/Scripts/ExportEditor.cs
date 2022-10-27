@@ -9,9 +9,15 @@ public class ExportEditor : Editor
         base.OnInspectorGUI();
 
         ExportManager em = (ExportManager)target;
+
+        GUILayout.BeginHorizontal();
+
         if (GUILayout.Button("Save Prefabs"))
-        {
             em.SavePrefabs();
-        }
+
+        if (GUILayout.Button("Clear Folder"))
+            em.ClearFolder();
+
+        GUILayout.EndHorizontal();
     }
 }
