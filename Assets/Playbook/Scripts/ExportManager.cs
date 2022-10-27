@@ -28,6 +28,15 @@ public class ExportManager : MonoBehaviour
 
     public void SavePrefabs()
     {
+        if (!Directory.Exists("Assets/Exported"))
+            AssetDatabase.CreateFolder("Assets", "Exported");
+
+        if (!Directory.Exists("Assets/Exported/" + "Export_" + exportCount))
+            AssetDatabase.CreateFolder("Assets/Exported", "Export_" + exportCount);
+
+        if (!Directory.Exists("Assets/Resources/" + "Export_" + exportCount))
+            AssetDatabase.CreateFolder("Assets/Resources", "Export_" + exportCount);
+
         GameObject[] objectArray = GameObject.FindGameObjectsWithTag("Exportable");
         if (setting == Setting.Selected)
             objectArray = Selection.gameObjects;
@@ -42,8 +51,9 @@ public class ExportManager : MonoBehaviour
 
             Texture2D itemBGTex = g.GetComponentInChildren<Renderer>().material.mainTexture as Texture2D;
             itemBGTex.alphaIsTransparency = true;
+            itemBGTex.Apply(true, false);
             byte[] itemBGBytes = itemBGTex.EncodeToPNG();
-            string texPath = "Assets/Resources/" + "Texture_" + count + ".png";
+            string texPath = "Assets/Resources/Export_" + exportCount + "/" + "Texture_" + count + ".png";
             File.WriteAllBytes(texPath, itemBGBytes);
 
             AssetDatabase.ImportAsset(texPath);
@@ -55,13 +65,12 @@ public class ExportManager : MonoBehaviour
             Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
             mat.SetFloat("_Surface", 1.0f);
             mat.renderQueue = 2999;
-            var texture = Resources.Load<Texture2D>("Texture_" + count);
-            Debug.Log(texture);
+            var texture = Resources.Load<Texture2D>("Export_" + exportCount +"/Texture_" + count);
             mat.mainTexture = texture;
 
             g.GetComponentInChildren<Renderer>().material = mat;
 
-            string matPath = "Assets/Exported/" + "Material_" + count + ".mat";
+            string matPath = "Assets/Exported/Export_" + exportCount + "/" + "Material_" + count + ".mat";
             AssetDatabase.CreateAsset(mat, matPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -72,10 +81,7 @@ public class ExportManager : MonoBehaviour
         // Save grouped assets as prefab if assets have been imported
         if (objectArray.Length > 0)
         {
-            if (!Directory.Exists("Assets/Exported"))
-                AssetDatabase.CreateFolder("Assets", "Exported");
-
-            string localPath = "Assets/Exported/" + p.name + "_" + exportCount + ".prefab";
+            string localPath = "Assets/Exported/Export_" + exportCount + "/" + p.name + "_" + exportCount + ".prefab";
             localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
 
             bool prefabSuccess;
