@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using System.Collections;
 
 public class ExportManager : MonoBehaviour
 {
@@ -15,10 +16,14 @@ public class ExportManager : MonoBehaviour
     private int exportCount;
     private int objectCount;
 
-    public void ClearFolder()
+    public void ClearFolders()
     {
         if (Directory.Exists("Assets/Exported")) { Directory.Delete("Assets/Exported", true); }
         Directory.CreateDirectory("Assets/Exported");
+
+        if (Directory.Exists("Assets/Resources")) { Directory.Delete("Assets/Resources", true); }
+        Directory.CreateDirectory("Assets/Resources");
+
         AssetDatabase.Refresh();
     }
 
@@ -26,44 +31,43 @@ public class ExportManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.S))
         {
-            Debug.Log("Texture");
+            Debug.Log("Testing!");
+
             GameObject[] objectArray = GameObject.FindGameObjectsWithTag("Exportable");
             int count = 0;
+
             foreach (GameObject g in objectArray)
             {
-                count++;
-                Texture2D itemBGTex = g.GetComponentInChildren<Renderer>().material.mainTexture as Texture2D;
+                Texture2D itemBGTex = objectArray[0].GetComponentInChildren<Renderer>().material.mainTexture as Texture2D;
                 itemBGTex.alphaIsTransparency = true;
                 byte[] itemBGBytes = itemBGTex.EncodeToPNG();
-                string texPath = "Assets/Exported/" + "Texture_" + count + ".png";
+                string texPath = "Assets/Resources/" + "Texture_" + count + ".png";
                 File.WriteAllBytes(texPath, itemBGBytes);
+
                 AssetDatabase.ImportAsset(texPath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
-            }
+                //------------
 
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Debug.Log("Material");
-            GameObject[] objectArray = GameObject.FindGameObjectsWithTag("Exportable");
-            int count = 0;
-            string texPath = "Assets/Exported/" + "Texture_" + count + ".png";
-            foreach (GameObject g in objectArray)
-            {
-                count++;
                 Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
                 mat.SetFloat("_Surface", 1.0f);
                 mat.renderQueue = 2999;
-                mat.mainTexture = LoadPNG(texPath);
+
+                var texture = Resources.Load<Texture2D>("Texture_" + count);
+                Debug.Log(texture);
+                mat.mainTexture = texture;
+
                 string matPath = "Assets/Exported/" + "Material_" + count + ".mat";
                 AssetDatabase.CreateAsset(mat, matPath);
-
                 AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                count++;
             }
+
         }
+
     }
 
     public void SavePrefabs()
@@ -71,26 +75,6 @@ public class ExportManager : MonoBehaviour
         GameObject[] objectArray = GameObject.FindGameObjectsWithTag("Exportable");
         if (setting == Setting.Selected)
             objectArray = Selection.gameObjects;
-
-
-        //-------------------------------
-
-        //Texture2D itemBGTex = s.texture;
-        //Debug.Log(itemBGTex);
-        //byte[] itemBGBytes = itemBGTex.EncodeToPNG();
-        //File.WriteAllBytes("Assets/Exported/" + "Background.png", itemBGBytes);
-
-        //Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-        //mat.SetFloat("_Surface", 1.0f);
-        //mat.mainTexture = itemBGTex;
-        //mat.renderQueue = 2999;
-        //string matPath = "Assets/Exported/" + itemBGTex.name + ".mat";
-        //AssetDatabase.CreateAsset(mat, matPath);
-
-        //AssetDatabase.SaveAssets();
-        //AssetDatabase.Refresh();
-
-        //-------------------------------
 
         //Assign all to root parent
         GameObject p = new GameObject("FigmaElements");
@@ -112,7 +96,7 @@ public class ExportManager : MonoBehaviour
             Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
             mat.SetFloat("_Surface", 1.0f);
             mat.renderQueue = 2999;
-            mat.mainTexture = LoadPNG(texPath);
+           // mat.mainTexture = LoadPNG(texPath);
             string matPath = "Assets/Exported/" + "Material_" + objectCount + ".mat";
             AssetDatabase.CreateAsset(mat, matPath);
 
@@ -144,23 +128,6 @@ public class ExportManager : MonoBehaviour
         }
         
 
-    }
-
-    public static Texture2D LoadPNG(string filePath)
-    {
-
-        Texture2D tex = null;
-        byte[] fileData;
-
-        if (File.Exists(filePath))
-        {
-            fileData = File.ReadAllBytes(filePath);
-            tex = new Texture2D(2, 2);
-            tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
-        }
-        else
-            Debug.Log("No asset at path!");
-        return tex;
     }
 
 }

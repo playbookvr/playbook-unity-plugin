@@ -15,8 +15,8 @@ public class ExportEditor : Editor
         if (GUILayout.Button("Save Prefabs"))
             em.SavePrefabs();
 
-        if (GUILayout.Button("Clear Folder"))
-            em.ClearFolder();
+        if (GUILayout.Button("Clear Folders"))
+            em.ClearFolders();
 
         GUILayout.EndHorizontal();
     }
