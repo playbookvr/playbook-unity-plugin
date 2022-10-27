@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ExportManager : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class ExportManager : MonoBehaviour
     [SerializeField] public Setting setting = Setting.All;
 
     private int exportCount;
-    private int objectCount;
 
     public void ClearFolders()
     {
@@ -43,15 +43,17 @@ public class ExportManager : MonoBehaviour
 
         //Assign all to root parent
         GameObject p = new GameObject("FigmaElements");
+        List<GameObject> tempObjectsArray = new List<GameObject>();
         int count = 0;
 
-        foreach (GameObject g in objectArray)
+        foreach (GameObject o in objectArray)
         {
+            GameObject g = Instantiate(o);
+            tempObjectsArray.Add(g);
             g.transform.parent = p.transform;
 
             Texture2D itemBGTex = g.GetComponentInChildren<Renderer>().material.mainTexture as Texture2D;
             itemBGTex.alphaIsTransparency = true;
-            itemBGTex.Apply(true, false);
             byte[] itemBGBytes = itemBGTex.EncodeToPNG();
             string texPath = "Assets/Resources/Export_" + exportCount + "/" + "Texture_" + count + ".png";
             File.WriteAllBytes(texPath, itemBGBytes);
@@ -79,7 +81,7 @@ public class ExportManager : MonoBehaviour
         }
 
         // Save grouped assets as prefab if assets have been imported
-        if (objectArray.Length > 0)
+        if (p.transform.childCount > 0)
         {
             string localPath = "Assets/Exported/Export_" + exportCount + "/" + p.name + "_" + exportCount + ".prefab";
             localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
@@ -93,6 +95,10 @@ public class ExportManager : MonoBehaviour
 
             exportCount++;
         }
+
+        //Cleanup temp objects
+        tempObjectsArray.Clear();
+        Destroy(p);
         
 
     }
