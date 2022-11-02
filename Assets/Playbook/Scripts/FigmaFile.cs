@@ -10,6 +10,8 @@ namespace Playbook.Scripts.Figma
     {
         public string Name;
         public string Url;
+        public int Page;
+        public int Frame;
         
         // Status of sync
         public bool IsSyncing;
@@ -22,10 +24,12 @@ namespace Playbook.Scripts.Figma
         public bool IsCurrentlySynced;
         
 
-        public FigmaFile(string url)
+        public FigmaFile(string url, int page, int frame)
         {
             ReadyToSync = false;
             Url = url;
+            Page = page;
+            Frame = frame;
             //FigmaMenuDropdownOption = new DropdownOption
             //{
             //    optionName = "Loading..."

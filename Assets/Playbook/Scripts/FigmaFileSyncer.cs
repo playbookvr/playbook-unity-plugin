@@ -57,6 +57,8 @@ namespace Playbook.Scripts.Figma
             string figmaFileID = _parentFigmaFile.Url.Split('/')[4];
             Debug.Log($"SyncFigma() - figmaFileID: {figmaFileID}");
             string figmaAPIFileEndpoint = $"/files/{figmaFileID}";
+            int figmaPage = _parentFigmaFile.Page;
+            int figmaFrame = _parentFigmaFile.Frame;
             JObject figmaFileJSON;
             JObject figmaFrameJSON;
             JObject figmaImageRefJSON;
@@ -74,7 +76,21 @@ namespace Playbook.Scripts.Figma
 
                 // TODO: we'll need to hook this NodeID up to the frame dropped in by the Figma Plugin
                 // Grab the first page's first frame that contains the rest of the elements
-                string figmaNodeID = (string)figmaFileJSON["document"]["children"][0]["children"][0]["id"];
+
+                if (figmaPage > ((JArray)figmaFileJSON["document"]["children"]).Count)
+                {
+                    Debug.Log("The page entered exceeds number of pages in the file. Resetting to first page.");
+                    figmaPage = 0;
+                }
+;
+                if (figmaFrame > ((JArray)figmaFileJSON["document"]["children"][figmaPage]["children"]).Count)
+                {
+                    Debug.Log("The frame entered exceeds number of frames in the file. Resetting to first frame.");
+                    figmaFrame = 0;
+                }
+                    
+
+                string figmaNodeID = (string)figmaFileJSON["document"]["children"][figmaPage]["children"][figmaFrame]["id"];
                 string figmaAPIFrameEndpoint =
                     $"/files/{figmaFileID}/nodes?geometry=paths&ids={figmaNodeID}";
                 string figmaAPIImageRefEndpoint = $"/files/{figmaFileID}/images"; // This is a JSON containing image URLs used in a Figma canvas

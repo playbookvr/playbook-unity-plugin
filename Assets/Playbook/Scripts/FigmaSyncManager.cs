@@ -21,6 +21,12 @@ namespace Playbook.Scripts.Figma
         // This token has to be an OAuth token from the Figma API
         [SerializeField] private string figmaAPIToken;
 
+        // Figma page number
+        [SerializeField] private int page;
+
+        // Figma frame number
+        [SerializeField] private int frame;
+
         private List<FigmaFile> _availableFigmaFiles;
         private int _currentlySelectedFigmaFile;
 
@@ -37,7 +43,7 @@ namespace Playbook.Scripts.Figma
             // create a new API connector for use by FigmaFileSyncer
             var _ = new FigmaAPIConnector(figmaAPIToken);
 
-            var newFile = new FigmaFile(figmaFileURL);
+            var newFile = new FigmaFile(figmaFileURL, page, frame);
 
             _availableFigmaFiles = new List<FigmaFile> { newFile };
             _currentlySelectedFigmaFile = 0;

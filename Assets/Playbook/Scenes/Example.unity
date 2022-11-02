@@ -398,6 +398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   figmaFileURL: https://www.figma.com/file/IX2ygnlbCqOSR84vyrTijP/Red-Bull-Demo?node-id=520%3A1765
   figmaAPIToken: figd_Bcwv5VKworrya75glqBnmJZ3VHFg3SgE1EO-xRbr
+  frame: 1
 --- !u!114 &8532882291212905195
 MonoBehaviour:
   m_ObjectHideFlags: 0
