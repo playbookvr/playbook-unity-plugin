@@ -31,6 +31,9 @@ public class ExportManager : MonoBehaviour
         if (!Directory.Exists("Assets/Exported"))
             AssetDatabase.CreateFolder("Assets", "Exported");
 
+        if (!Directory.Exists("Assets/Resources"))
+            AssetDatabase.CreateFolder("Assets", "Resources");
+
         if (!Directory.Exists("Assets/Exported/" + "Export_" + exportCount))
             AssetDatabase.CreateFolder("Assets/Exported", "Export_" + exportCount);
 
