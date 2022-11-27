@@ -193,7 +193,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -413,7 +413,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageElement: {fileID: 5192467522507569007, guid: 5d7a5d0bf3ec54ced9bd22d5343e686b, type: 3}
-  textElement: {fileID: 160421133034156401, guid: 3dc2729dbf68f4e3eb9bde45cf6774a7, type: 3}
   scaleFactor: 700
   defaultZPosition: 1.3
   defaultAdjustX: -800

@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef300df78bb3c49d9a8225556c00d618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoundEdges: 0.08
+  RoundEdges: 0
   RoundTopLeft: 0
   RoundTopRight: 0
   RoundBottomLeft: 0
