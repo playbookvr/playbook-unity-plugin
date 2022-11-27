@@ -15,7 +15,6 @@ namespace Playbook.Scripts.Figma
         [SerializeField]
         public GameObject imageElement;
         [SerializeField]
-        public GameObject textElement;
 
         // Default positions for elements
         public Dictionary<GameObject, float> GameObjectZPos; // default Z Position for each element
@@ -59,13 +58,13 @@ namespace Playbook.Scripts.Figma
         {
             Instance = this;
 
-            gameObjects = new List<GameObject> { imageElement, textElement };
-            GameObjectZPos = new Dictionary<GameObject, float>() { { imageElement, 0.0f }, { textElement, 0.0f } };
-            GameObjectXOffset = new Dictionary<GameObject, float>() { { imageElement, 0.0f }, { textElement, -0.2f } };
-            GameObjectYOffset = new Dictionary<GameObject, float>() { { imageElement, 0.0f }, { textElement, 0.0f } };
-            GameObjectDefaultPos = new Dictionary<GameObject, Vector3>() { { imageElement, new Vector3(0.0f, 0.0f, 0.0f) }, { textElement, new Vector3(0.0f, 0.0f, 0.0f) } };
+            gameObjects = new List<GameObject> { imageElement };
+            GameObjectZPos = new Dictionary<GameObject, float>() { { imageElement, 0.0f } };
+            GameObjectXOffset = new Dictionary<GameObject, float>() { { imageElement, 0.0f } };
+            GameObjectYOffset = new Dictionary<GameObject, float>() { { imageElement, 0.0f } };
+            GameObjectDefaultPos = new Dictionary<GameObject, Vector3>() { { imageElement, new Vector3(0.0f, 0.0f, 0.0f) } };
 
-            FigmaComponentNames = new Dictionary<string, GameObject>() { { "Playbook Image", imageElement },  { "Playbook Text", textElement } };
+            FigmaComponentNames = new Dictionary<string, GameObject>() { { "Playbook Image", imageElement } };
             
 
             XScaleFactor = scaleFactor;

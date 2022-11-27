@@ -43,7 +43,6 @@ namespace Playbook.Scripts.Figma
             _parentFigmaFile = parent;
 
             _imageElement = FigmaConstants.Instance.imageElement;
-            _textElement = FigmaConstants.Instance.textElement;
             
             _imageShader = Shader.Find("Universal Render Pipeline/Unlit");
             
@@ -437,48 +436,7 @@ namespace Playbook.Scripts.Figma
             float height, JObject figmaObjectJSON, float rotation)
         {
             GameObject type = figmaComponentType.GameObjectType;
-            if (type == _textElement)
-            {
-                var playbookText = currObject.GetComponent<PlaybookText>();
-                float fontSize;
-                if ((figmaObjectJSON.ContainsKey("children") && figmaObjectJSON["children"].HasValues &&
-                     ((JObject)figmaObjectJSON["children"][0])!.ContainsKey("style") &&
-                     figmaObjectJSON["children"][0]!["style"]!.HasValues &&
-                     ((JObject)figmaObjectJSON["children"][0]["style"]).ContainsKey("fontSize")))
-                {
-                    fontSize = 1.63f / 92.0f * (float)figmaObjectJSON["children"][0]["style"]["fontSize"];
-                }
-                else
-                {
-                    fontSize = 1.63f / 92.0f * (float)figmaObjectJSON["style"]["fontSize"];
-                }
-
-                // gross code that fixes position of text
-                float x = ((float)figmaObjectJSON["relativeTransform"][0]?[2] + _origAdjustX) / FigmaConstants.Instance.XScaleFactor - 0.02f;
-                var localPosition = currObject.transform.localPosition;
-                localPosition = new Vector3(x, localPosition.y, localPosition.z);
-                currObject.transform.localPosition = localPosition;
-                
-                // set font size and alignment
-                // TODO support different text alignment
-                currObject.GetComponent<TextModifier>().SetTextSize(fontSize);
-                playbookText.alignment = PlaybookText.ParagraphAlignment.Center;
-                playbookText._textSize = PlaybookText.TextSize.Custom;
-                playbookText.customFontSize = fontSize;
-                
-                // calculate new width of textbox
-                float newWidth = width / 972.0f * 1.445f;
-                var rectTransform = currObject.GetComponentInChildren<RectTransform>();
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newWidth);
-                
-                // we set the pivot point to (0, 0.5) so that its position
-                // is set from the leftmost point in the X axis -- like Figma
-                rectTransform.pivot = new Vector2(0, 0.5f);
-                
-                // set margins of text to 0
-                currObject.GetComponentInChildren<TextMeshPro>().margin = Vector4.zero;
-            }
-            else if (type == _panelElement)
+            if (type == _panelElement)
             {
                 Vector3 scalePanel = new Vector3(width / 695.0f, height / 695.0f,
                     currObject.transform.GetChild(0).localScale.z);
@@ -490,55 +448,12 @@ namespace Playbook.Scripts.Figma
                     currObject.transform.GetChild(0).localScale.z);
                 currObject.transform.GetChild(0).localScale = scalePanel;
             }
-            else if (figmaComponentType.Size != null)
-            {
-                //if (type == _buttonElement)
-                //{
-                //    PlaybookButton playbookButtonScript = currObject.GetComponent<PlaybookButton>();
-                //    playbookButtonScript.SetQuickSize((QuickSizeChooser.Size)figmaComponentType.Size);
-                //}
-                //else if (type == _stepperElement)
-                //{
-                //    PlaybookStepper playbookStepperScript = currObject.GetComponent<PlaybookStepper>();
-                //    playbookStepperScript.SetQuickSize((QuickSizeChooser.Size)figmaComponentType.Size);
-                //}
-                //else if (type == _sliderElement)
-                //{
-                //    PlaybookSlider playbookSliderScript = currObject.GetComponent<PlaybookSlider>();
-                //    playbookSliderScript.SetQuickSize((QuickSizeChooser.Size)figmaComponentType.Size);
-                //}
-                //else if (type == _toggleElement)
-                //{
-                //    PlaybookToggle playbookToggleScript = currObject.GetComponent<PlaybookToggle>();
-                //    playbookToggleScript.SetQuickSize((QuickSizeChooser.Size)figmaComponentType.Size);
-                //}
-            }
-            // commented out because it moves objects around weirdly
-            // currObject.transform.GetChild(childIndex).transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotation);
         }
 
         private void SetObjectText(FigmaComponentType figmaComponentType, GameObject currObject,
             JObject figmaObjectJSON, bool unknownComponent)
         {
             GameObject type = figmaComponentType.GameObjectType;
-            if (type.GetComponent<PlaybookText>() != null)
-            {
-                if (unknownComponent) // This is unused for now because unknownComponent text is going to be instantiated as a Playbook Image
-                {
-                    //Debug.Log($"Setting unknown text: {(string)figmaObjectJSON["characters"]}");
-                    currObject.GetComponent<PlaybookText>().labelTxt = ((string)figmaObjectJSON["characters"]);
-                }
-                else if (figmaObjectJSON.ContainsKey("children") && figmaObjectJSON["children"].HasValues &&
-                         ((JObject)figmaObjectJSON["children"][0])!.ContainsKey("characters"))
-                {
-                    //Debug.Log($"Setting text: {(string)figmaObjectJSON["children"][0]["characters"]}");
-                    currObject.GetComponent<PlaybookText>().labelTxt = ((string)figmaObjectJSON["children"][0]["characters"]);
-                }
-            }
-            //else if (type == _buttonElement)
-            //{
-            //    currObject.GetComponent<PlaybookButton>().SetButtonText((string)figmaObjectJSON["children"][0]?["characters"]);
-            //}
         }
 
         private void SetObjectColor(FigmaComponentType figmaComponentType, GameObject currObject,
